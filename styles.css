@@ -1,0 +1,119 @@
+:root {
+    --velocidad: 7s;
+    --triangulo: polygon(0 100%, 100% 100%, 50% 0); /* forma triangular (pirámide) */
+}
+
+.contenedor {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+    perspective: 300px; /*Punto de fuga para los elementos hijos*/
+    perspective-origin: 50% 40%; /*posX posY, punto de origen de la perspectiva*/
+    background-color: whitesmoke;
+}
+
+.contenedor:hover {
+    background-color: rgba(60, 59, 59, 0.797);
+}
+
+.cara {
+    position: absolute;
+    left: 140px;
+    top: 150px;
+    width: 0;
+    height: 0;
+    border-left: 60px solid;
+    border-right: 60px solid;
+    border-bottom: 120px solid;
+    filter: blur(7px);
+    transform-origin: 50% 0; /*Define el punto de origen de la transformación,
+                               en este caso está en medio arriba del div*/
+    animation: girar var(--velocidad) infinite linear;
+}
+
+
+.trasera {
+    animation-delay: calc(var(--velocidad) / -2); /*   5/(-2)= -2.5s    */
+
+    /* Si la animación dura 5s y se le aplica un delay negativo de -2.5s,
+       parecerá que el delay comienza a la mitad (omitiendo la primera mitad)
+       y se completará en 2.5s.
+       
+       Los valores negativos hacen que la transición comience inmediatamente,
+       pero hacen que la transición parezca comenzar a la mitad del efecto de animación*/
+}
+
+.derecha {
+    animation-delay: calc(var(--velocidad) / -4); /* 5/(-4)= -1.25s   Es lo mismo que animation-delay -1.25s*/
+}
+
+.izquierda {
+    animation-delay: calc(var(--velocidad) * -0.75); /* 5*(-0.75)= -3.75s */
+}
+
+@keyframes girar {
+    0% {
+        transform: rotateY(0deg) rotateX(30deg);
+        border-image: linear-gradient(#012e4b,#009bff);
+        clip-path: var(--triangulo);
+
+        /* clip-path permite realizar recorte con forma completa,
+                     en este caso polygon() */
+    }
+
+    25% {
+        transform: rotateY(90deg) rotateX(30deg);
+        border-image: linear-gradient(#012e4b,#009bff);
+        clip-path: var(--triangulo);
+        opacity: 1;
+    }
+
+    25.1% {
+        opacity: 0;
+    }
+
+    50% {
+        transform: rotateY(180deg) rotateX(30deg);
+        border-image: linear-gradient(#012e4b,#009bff);
+        clip-path: var(--triangulo);
+    }
+
+    74.9% {
+        opacity: 0;
+    }
+
+    75% {
+        transform: rotateY(270deg) rotateX(30deg);
+        border-image: linear-gradient(#012e4b,#009bff);
+        clip-path: var(--triangulo);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotateY(360deg) rotateX(30deg);
+        border-image: linear-gradient(#012e4b,#009bff);
+        clip-path: var(--triangulo);
+    }
+}
+
+.sombra {
+    position: absolute;
+    top: 300px;
+    left: 175px;
+    width: 50px;
+    height: 50px;
+    background-color: #bbb;
+    box-shadow: 0 0 40px 40px #bbb;
+    animation: sombra var(--velocidad) infinite linear;
+}
+
+@keyframes sombra {
+    0% {
+        transform: rotateX(90deg) rotateZ(0deg); /* la sombra definida en eje X y Z */
+    }
+    
+    100% {
+        transform: rotateX(90deg) rotateZ(-360deg);
+    }
+}
